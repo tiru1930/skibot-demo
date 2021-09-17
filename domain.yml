@@ -1,0 +1,153 @@
+version: "2.0"
+
+intents:
+  - greet:
+      use_entities: true
+  - goodbye:
+      use_entities: true
+  - affirm:
+      use_entities: true
+  - deny:
+       use_entities: true
+  - mood_great:
+      use_entities: true
+  - mood_unhappy:
+      use_entities: true
+  - bot_challenge:
+      use_entities: true
+  - ask_for_help:
+      use_entities: true
+  - ski_rides:
+      use_entities: true
+  - mountain_sports_school:
+      use_entities: true
+  - kids_lessons:
+      use_entities: true
+  - reschedule:
+      use_entities: true
+  - inform:
+      use_entities: true
+  - select_message:
+      use_entities: true
+
+entities:
+  - phone_number
+  - name
+  - date
+slots:
+  phone_number:
+    type: rasa.shared.core.slots.AnySlot
+  name:
+    type: rasa.shared.core.slots.AnySlot
+  date:
+    type: rasa.shared.core.slots.AnySlot
+
+responses:
+  utter_cheer_up:
+  - text: "Here is something to cheer you up:"
+    image: "https://i.imgur.com/nGF1K8f.jpg"
+
+  utter_did_that_help:
+  - text: "Did that help you?"
+
+  utter_happy:
+  - text: "Great, carry on!"
+
+  utter_goodbye:
+  - text: "Bye"
+
+  utter_iamabot:
+  - text: "I am a bot, powered by Rasa."
+  utter_greet:
+    - buttons:
+        - payload: /ski_rides
+          title: Ski and Rides
+        - payload: /weather_snow_reports
+          title: Weather and Snow Reports
+        - payload: /lodging
+          title: Lodging
+        - payload: /activties_events
+          title: Activities and Events
+      text: Howdy! What can I help you with today?
+
+  utter_ski_rides:
+    - buttons:
+        - payload: /tickets_season_passes
+          title: tickets and season passes
+        - payload: /mountain_sports_school
+          title: mountain sports school
+        - payload: /rentals_services
+          title: entals Services
+        - payload: /activties_events
+          title: Activities and Events
+      text: How can I help you with our programs
+  utter_mountain_sports_school:
+    - buttons:
+        - payload: /kids_lessons
+          title: kids lessons
+        - payload: /group_lessons
+          titile: group lessons
+        - payload: /guided_experiences
+          title: Guided Experiences
+      text: How Can I help you with our mountain and sports school programs
+  utter_kids_lessons:
+    - buttons:
+        - payload: /new_lessons
+          title: New Lessons
+        - payload: /reschedule
+          titile: Reschedule
+      text: Excellent, How Can I help with Kids Program Questions?
+  utter_reschedule:
+    - text: "What is the phone # associated with this reservation?"
+  utter_reschedule_message:
+    - text: |-
+        I have {number} reservations associated with this phone # {phone_number}
+        Which one you would like to reschedule?
+        schedules : {schedules}
+  utter_schedule_details:
+    - text: |-
+        We have the following options available for {name}
+        Which one you would like to reschedule?
+        details : {details}
+  utter_rechedle_message:
+    - text: "I have rescheduled  your private Lesson Please check in at the Mountain School desk 30 minutes prior to your lesson."
+  utter_reserve_Equipment:
+    - buttons:
+        - payload: /affirm
+          title: Yes
+        - payload: /deny
+          title: No
+      text: Do you need to reserve Rental or Demo Equipment?
+
+  utter_ask_for_help:
+    - text: "Is there anything else I can do for you at this time?"
+
+
+actions:
+- action_get_schedules
+- action_get_schedule_details
+
+forms:
+  reschedule_form:
+    required_slots:
+      phone_number:
+      - entity: phone_number
+        type: from_entity
+      - not_intent: stop
+        type: from_text
+  schedule_details_from:
+    required_slots:
+      name:
+        - entity: name
+          type: from_text
+        - not_intent: stop
+          type: from_text
+      date:
+        - entity: date
+          type: from_text
+        - not_intent: stop
+          type: from_text
+
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true

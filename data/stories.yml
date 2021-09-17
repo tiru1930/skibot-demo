@@ -1,0 +1,25 @@
+version: "2.0"
+
+stories:
+
+- story: happy path
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: ski_rides
+  - action: utter_ski_rides
+  - intent: mountain_sports_school
+  - action: utter_mountain_sports_school
+  - intent: kids_lessons
+  - action: utter_kids_lessons
+  - intent: reschedule
+  - action: utter_reschedule
+  - action: reschedule_form
+  - action: action_get_schedules
+  - intent: inform
+  - action: action_get_schedule_details
+  - intent: inform
+  - action: utter_rechedle_message
+  - action: utter_reserve_Equipment
+  - intent: deny
+  - action: utter_ask_for_help
